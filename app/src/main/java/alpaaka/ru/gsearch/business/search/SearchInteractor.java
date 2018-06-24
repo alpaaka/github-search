@@ -29,41 +29,13 @@ public class SearchInteractor implements ISearchInteractor {
             @Override
             public void run() {
                 if (!q.equals(previousRequest)) {
-                    dataSource.findRep(new LoadRepositoriesCallback() {
-                        @Override
-                        public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
-                            callback.onRepositoriesLoaded(list, true);
-                        }
-
-                        @Override
-                        public void onDataNotAvailable(int code) {
-                            callback.onDataNotAvailable(code);
-                        }
-
-                        @Override
-                        public void onConnectionError() {
-                            callback.onConnectionError();
-                        }
-                    }, q, 1);
-                    previousRequest = q;
                     count = 1;
+                    findRep(callback, q,
+                            true, count);
+                    previousRequest = q;
                 } else {
-                    dataSource.findRep(new LoadRepositoriesCallback() {
-                        @Override
-                        public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
-                            callback.onRepositoriesLoaded(list, false);
-                        }
-
-                        @Override
-                        public void onDataNotAvailable(int code) {
-                            callback.onDataNotAvailable(code);
-                        }
-
-                        @Override
-                        public void onConnectionError() {
-                            callback.onConnectionError();
-                        }
-                    }, q, ++count);
+                    findRep(callback, q,
+                            false, ++count);
                 }
             }
         }, 400);
@@ -71,10 +43,16 @@ public class SearchInteractor implements ISearchInteractor {
 
     @Override
     public void loadMore(final LoadRepositoriesCallback callback) {
+        findRep(callback, previousRequest, false, ++count);
+    }
+
+    private void findRep(final LoadRepositoriesCallback callback, String q,
+                         final boolean needRefresh,
+                         int page){
         dataSource.findRep(new LoadRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
-                callback.onRepositoriesLoaded(list, false);
+                callback.onRepositoriesLoaded(list, needRefresh);
             }
 
             @Override
@@ -86,6 +64,6 @@ public class SearchInteractor implements ISearchInteractor {
             public void onConnectionError() {
                 callback.onConnectionError();
             }
-        }, previousRequest, ++count);
+        }, q, page);
     }
 }
