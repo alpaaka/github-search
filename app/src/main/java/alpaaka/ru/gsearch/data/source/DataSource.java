@@ -18,7 +18,6 @@ public class DataSource implements IAuthSource {
     @Inject
     ISharedPreferencesRepository sharedPreferences;
 
-
     @Inject
     DataSource(Context context, AuthSource authSource) {
         this.context = context;
