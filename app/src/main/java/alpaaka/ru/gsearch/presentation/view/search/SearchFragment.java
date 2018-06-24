@@ -35,7 +35,6 @@ public class SearchFragment extends Fragment implements SearchContract.View,
     private RepositoriesRecyclerViewAdapter adapter;
     private OnFragmentInteractionListener listener;
     private boolean isLoading = false;
-    private String currentRequest;
 
     @Inject
     public SearchFragment() {
@@ -115,7 +114,6 @@ public class SearchFragment extends Fragment implements SearchContract.View,
     @Override
     public boolean onQueryTextChange(String s) {
         if (!s.isEmpty()) {
-            this.currentRequest = s;
             presenter.searchReps(s);
         }
         return true;
