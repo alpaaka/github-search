@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">gsearch</string>
+    <string name="btn_skip">Продолжить без</string>
+    <string name="btn_sign_in">Авторизоваться</string>
 </resources>
