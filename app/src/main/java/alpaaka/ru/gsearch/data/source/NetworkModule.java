@@ -40,10 +40,12 @@ public class NetworkModule {
         builder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(@NonNull Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Authorization", "token " + spRep.getToken())
-                        .build();
-                return chain.proceed(request);
+                Request.Builder request = chain.request().newBuilder();
+                if (!spRep.getToken().isEmpty()){
+                    request
+                            .addHeader("Authorization", "token " + spRep.getToken());
+                }
+                return chain.proceed(request.build());
             }
         });
         return builder.build();

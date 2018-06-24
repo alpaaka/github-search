@@ -17,7 +17,8 @@ import alpaaka.ru.gsearch.presentation.presenter.contentactivity.ContentActivity
 import alpaaka.ru.gsearch.presentation.view.search.SearchFragment;
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class ContentActivity extends DaggerAppCompatActivity implements ContentActivityContract.View {
+public class ContentActivity extends DaggerAppCompatActivity implements ContentActivityContract.View,
+        SearchFragment.OnFragmentInteractionListener {
 
     private static final int CONTAINER = R.id.container;
 

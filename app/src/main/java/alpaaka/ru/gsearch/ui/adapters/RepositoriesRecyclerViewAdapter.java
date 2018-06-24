@@ -45,7 +45,11 @@ public class RepositoriesRecyclerViewAdapter
         return list.size();
     }
 
-    public void loadData(ArrayList<Repository> list){
+    public void loadData(ArrayList<Repository> list, boolean refresh) {
+        if (refresh) {
+            notifyItemRangeRemoved(0, this.list.size());
+            this.list.clear();
+        }
         int position = this.list.size();
         this.list.addAll(list);
         notifyItemRangeInserted(position, list.size());

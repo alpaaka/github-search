@@ -31,23 +31,57 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void searchReps(final String q) {
+        view.showProgress(true);
         interactor.findRepositories(new ISearchInteractor.LoadRepositoriesCallback() {
             @Override
-            public void onRepositoriesLoaded(ArrayList<Repository> list) {
+            public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
                 if (view != null){
-                    view.dataLoaded(list);
+                    view.showProgress(false);
+                    view.dataLoaded(list, refresh);
                 }
             }
 
             @Override
             public void onDataNotAvailable(int code) {
-
+                if (view != null){
+                    view.showProgress(false);
+                }
             }
 
             @Override
             public void onConnectionError() {
-
+                if (view != null){
+                    view.showProgress(false);
+                }
             }
         }, q);
+    }
+
+    @Override
+    public void loadMore() {
+        view.showProgress(true);
+        interactor.loadMore(new ISearchInteractor.LoadRepositoriesCallback() {
+            @Override
+            public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
+                if (view != null){
+                    view.showProgress(false);
+                    view.dataLoaded(list, refresh);
+                }
+            }
+
+            @Override
+            public void onDataNotAvailable(int code) {
+                if (view != null){
+                    view.showProgress(false);
+                }
+            }
+
+            @Override
+            public void onConnectionError() {
+                if (view != null){
+                    view.showProgress(false);
+                }
+            }
+        });
     }
 }

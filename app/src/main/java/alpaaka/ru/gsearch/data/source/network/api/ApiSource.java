@@ -25,15 +25,18 @@ public class ApiSource implements IApiSource{
 
     @Override
     public void findRep(final ISearchInteractor.LoadRepositoriesCallback callback, String q, int page) {
-        Call<RepositoryResponse> call = apiService.findRepositories(q, 0);
+        Call<RepositoryResponse> call = apiService.findRepositories(q, page);
         call.enqueue(new Callback<RepositoryResponse>() {
             @Override
-            public void onResponse(Call<RepositoryResponse> call, final Response<RepositoryResponse> response) {
+            public void onResponse(Call<RepositoryResponse> call,
+                                   final Response<RepositoryResponse> response) {
                 if (response.isSuccessful()){
                     appExecutor.getMainThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                            callback.onRepositoriesLoaded(new ArrayList<Repository>(response.body().getItems()));
+                            callback.onRepositoriesLoaded(new ArrayList<Repository>(response.body()
+                                            .getItems()),
+                                    true);
                         }
                     });
                 } else {

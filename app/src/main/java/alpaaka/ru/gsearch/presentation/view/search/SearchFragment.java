@@ -1,5 +1,6 @@
 package alpaaka.ru.gsearch.presentation.view.search;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,9 +31,19 @@ public class SearchFragment extends Fragment implements SearchContract.View,
     @Inject
     SearchContract.Presenter presenter;
     private RepositoriesRecyclerViewAdapter adapter;
+    private OnFragmentInteractionListener listener;
+    boolean isLoading = false;
 
     @Inject
     public SearchFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            this.listener = (OnFragmentInteractionListener) context;
+        }
     }
 
     @Nullable
@@ -43,11 +54,25 @@ public class SearchFragment extends Fragment implements SearchContract.View,
         View view = inflater.inflate(R.layout.fragment_search_results, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.search_result);
         adapter = new RepositoriesRecyclerViewAdapter(getContext(), new ArrayList<Repository>());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(view.getContext(),
                 layoutManager.getOrientation()));
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                if (!isLoading) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount) {
+                        isLoading = true;
+                        presenter.loadMore();
+                    }
+                }
+            }
+        });
         setHasOptionsMenu(true);
         return view;
     }
@@ -87,7 +112,17 @@ public class SearchFragment extends Fragment implements SearchContract.View,
     }
 
     @Override
-    public void dataLoaded(ArrayList<Repository> list) {
-        adapter.loadData(list);
+    public void dataLoaded(ArrayList<Repository> list, boolean refresh) {
+        adapter.loadData(list, refresh);
+    }
+
+    @Override
+    public void showProgress(boolean progress) {
+        this.isLoading = progress;
+        listener.showProgress(progress);
+    }
+
+    public interface OnFragmentInteractionListener {
+        void showProgress(boolean visibility);
     }
 }

@@ -9,10 +9,12 @@ import alpaaka.ru.gsearch.data.model.Repository;
 public class SearchContract {
 
     public interface View extends BaseView<Presenter> {
-        void dataLoaded(ArrayList<Repository> list);
+        void dataLoaded(ArrayList<Repository> list, boolean refresh);
+        void showProgress(boolean progress);
     }
 
     public interface Presenter extends BasePresenter<View>{
         void searchReps(String q);
+        void loadMore();
     }
 }

@@ -8,7 +8,7 @@ public interface ISearchInteractor {
 
     interface LoadRepositoriesCallback {
 
-        void onRepositoriesLoaded(ArrayList<Repository> list);
+        void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh);
 
         void onDataNotAvailable(int code);
 
@@ -16,4 +16,6 @@ public interface ISearchInteractor {
     }
 
     void findRepositories(LoadRepositoriesCallback callback, String q);
+
+    void loadMore(LoadRepositoriesCallback callback);
 }
