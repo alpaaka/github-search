@@ -9,7 +9,7 @@ public class SearchContract {
 
     }
 
-    interface Presenter extends BasePresenter<View>{
+    public interface Presenter extends BasePresenter<View>{
 
     }
 }

@@ -28,6 +28,9 @@ public class ContentActivity extends DaggerAppCompatActivity implements ContentA
     private MenuItem profileAction;
 
     @Inject
+    SearchFragment searchFragment;
+
+    @Inject
     public ContentActivity() {
     }
 
@@ -44,7 +47,7 @@ public class ContentActivity extends DaggerAppCompatActivity implements ContentA
         }
         setSupportActionBar(toolbar);
         getSupportFragmentManager().beginTransaction()
-                .add(CONTAINER, SearchFragment.newInstance(), "SearchFragment")
+                .add(CONTAINER, searchFragment, "SearchFragment")
                 .commit();
     }
 
