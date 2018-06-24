@@ -27,6 +27,13 @@ public class SharedPreferencesRepositoryImpl implements ISharedPreferencesReposi
     }
 
     @Override
+    public void removeToken() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(TOKEN, null);
+        editor.apply();
+    }
+
+    @Override
     public String getToken() {
         return prefs.getString(TOKEN, "");
     }

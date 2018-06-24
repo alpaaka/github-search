@@ -19,4 +19,6 @@ public abstract class ContentActivityModule {
     @ActivityScoped
     @Binds
     abstract ContentActivityContract.Presenter providePresenter(ContentPresenter presenter);
+
+
 }

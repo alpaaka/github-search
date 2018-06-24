@@ -12,4 +12,8 @@ public interface IAuthInteractor {
     }
 
     void loadToken(LoadTokenCallback callback, String textWithCode);
+
+    boolean checkToken();
+
+    void removeToken();
 }

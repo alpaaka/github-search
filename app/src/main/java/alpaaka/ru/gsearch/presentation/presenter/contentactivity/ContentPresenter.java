@@ -1,5 +1,7 @@
 package alpaaka.ru.gsearch.presentation.presenter.contentactivity;
 
+import android.support.annotation.NonNull;
+
 import javax.inject.Inject;
 
 import alpaaka.ru.gsearch.business.auth.IAuthInteractor;
@@ -9,6 +11,7 @@ public class ContentPresenter implements ContentActivityContract.Presenter {
     @Inject
     IAuthInteractor authInteractor;
     private ContentActivityContract.View view;
+    private boolean hasToken;
 
     @Inject
     ContentPresenter() {
@@ -25,6 +28,7 @@ public class ContentPresenter implements ContentActivityContract.Presenter {
                 if (view != null){
                     view.showProgress(false);
                     view.showInfoMessage(0);
+                    view.inflateOptionsMenu(1);
                 }
             }
 
@@ -46,8 +50,42 @@ public class ContentPresenter implements ContentActivityContract.Presenter {
         }, code);
     }
 
+    /**
+     * Если токен уже есть то рисуем кнопку выхода
+     * в другом случае отрисовываем кнопку логина
+     */
     @Override
-    public void takeView(ContentActivityContract.View view) {
+    public void drawProfileButton() {
+        this.hasToken = authInteractor.checkToken();
+        if (hasToken){
+            if (view != null) {
+                view.inflateOptionsMenu(1);
+            }
+        } else {
+            if (view != null) {
+                view.inflateOptionsMenu(0);
+            }
+        }
+    }
+
+    @Override
+    public void onActionProfileClick() {
+        if (hasToken){
+            hasToken = false;
+            if (view != null) {
+                view.inflateOptionsMenu(0);
+            }
+            authInteractor.removeToken();
+        } else {
+            if (view != null) {
+                view.showLoginPage();
+            }
+        }
+    }
+
+
+    @Override
+    public void takeView(@NonNull ContentActivityContract.View view) {
         this.view = view;
     }
 
