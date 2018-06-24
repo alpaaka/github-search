@@ -1,17 +1,8 @@
 package alpaaka.ru.gsearch.data.source.network.auth;
 
-import alpaaka.ru.gsearch.data.model.AuthToken;
+import alpaaka.ru.gsearch.business.auth.IAuthInteractor;
 
 public interface IAuthSource {
 
-    interface LoadTokenCallback {
-
-        void onTokenLoaded(String token);
-
-        void onDataNotAvailable(int code);
-
-        void onConnectionError();
-    }
-
-    void getAuthToken(LoadTokenCallback callback, String code);
+    void getAuthToken(IAuthInteractor.LoadTokenCallback callback, String code);
 }

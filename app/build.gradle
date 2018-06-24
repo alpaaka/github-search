@@ -26,6 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     def daggerVersion = '2.15'
     def retrofitVersion = '2.3.0'
+    def coreVersion = '28.0.0-alpha3'
 
     //Dagger 2
     compile "com.google.dagger:dagger:$daggerVersion"
@@ -38,7 +39,8 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
-    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
+    implementation "com.android.support:appcompat-v7:$coreVersion"
+    implementation "com.android.support:design:$coreVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

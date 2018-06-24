@@ -2,4 +2,8 @@
     <string name="app_name">gsearch</string>
     <string name="btn_skip">Продолжить без</string>
     <string name="btn_sign_in">Авторизоваться</string>
+    <string name="sign_in">Войти</string>
+
+    <string name="error_connect">Проверьте подключение к интернету</string>
+    <string name="forbidden">Доступ запрещен</string>
 </resources>

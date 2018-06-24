@@ -3,6 +3,7 @@ package alpaaka.ru.gsearch.data.source.network.auth;
 import javax.inject.Inject;
 
 import alpaaka.ru.gsearch.BuildConfig;
+import alpaaka.ru.gsearch.business.auth.IAuthInteractor;
 import alpaaka.ru.gsearch.data.model.AuthToken;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +19,7 @@ public class AuthSource implements IAuthSource{
     }
 
     @Override
-    public void getAuthToken(final LoadTokenCallback callback, String code) {
+    public void getAuthToken(final IAuthInteractor.LoadTokenCallback callback, String code) {
         Call<AuthToken> call = authService.getAccessToken(BuildConfig.CLIENT_ID,
                 BuildConfig.CLIENT_SECRET, code);
         call.enqueue(new Callback<AuthToken>() {

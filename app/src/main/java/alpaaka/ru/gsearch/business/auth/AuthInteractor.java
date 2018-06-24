@@ -15,28 +15,13 @@ public class AuthInteractor implements IAuthInteractor{
     DataSource dataSource;
 
     @Inject
-    public AuthInteractor() {
+    AuthInteractor() {
 
     }
 
     @Override
-    public void loadToken(String textWithCode) {
-        dataSource.getAuthToken(new IAuthSource.LoadTokenCallback() {
-            @Override
-            public void onTokenLoaded(String token) {
-
-            }
-
-            @Override
-            public void onDataNotAvailable(int code) {
-
-            }
-
-            @Override
-            public void onConnectionError() {
-
-            }
-        }, getCode(textWithCode));
+    public void loadToken(LoadTokenCallback callback, String textWithCode) {
+        dataSource.getAuthToken(callback, getCode(textWithCode));
     }
 
     private String getCode(String text){

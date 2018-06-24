@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import alpaaka.ru.gsearch.business.auth.IAuthInteractor;
 import alpaaka.ru.gsearch.data.source.network.auth.AuthSource;
 import alpaaka.ru.gsearch.data.source.network.auth.IAuthSource;
 import alpaaka.ru.gsearch.sharedpref.ISharedPreferencesRepository;
@@ -25,9 +26,9 @@ public class DataSource implements IAuthSource {
     }
 
     @Override
-    public void getAuthToken(final LoadTokenCallback callback, String code) {
+    public void getAuthToken(final IAuthInteractor.LoadTokenCallback callback, String code) {
         if (sharedPreferences.getToken().isEmpty()) {
-            authSource.getAuthToken(new LoadTokenCallback() {
+            authSource.getAuthToken(new IAuthInteractor.LoadTokenCallback() {
                 @Override
                 public void onTokenLoaded(String token) {
                     sharedPreferences.setToken(token);
