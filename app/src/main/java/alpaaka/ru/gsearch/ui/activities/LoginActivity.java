@@ -17,9 +17,6 @@ public class LoginActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent() != null & getIntent().getData() != null){
-
-        }
         setContentView(R.layout.activity_auth);
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
@@ -30,12 +27,14 @@ public class LoginActivity extends AppCompatActivity
     @Override
     public void onAuthClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(BuildConfig.OAUTH_URL + "authorize?client_id=889dd07e08092e76f681"));
+        intent.setData(Uri.parse(BuildConfig.OAUTH_URL + "authorize?client_id=" + BuildConfig.CLIENT_ID));
         startActivity(intent);
     }
 
     @Override
     public void onSkipClick() {
-
+        Intent intent = new Intent(LoginActivity.this, ContentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
