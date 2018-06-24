@@ -40,12 +40,7 @@ public class ContentActivity extends DaggerAppCompatActivity implements ContentA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appbar_content_actitivity);
         toolbar = findViewById(R.id.toolbar);
-        presenter.takeView(this);
         progressBar = findViewById(R.id.progress_bar);
-        if (getIntent() != null && getIntent().getData() != null) {
-            presenter.loadToken(getIntent().getDataString());
-
-        }
         setSupportActionBar(toolbar);
         getSupportFragmentManager().beginTransaction()
                 .add(CONTAINER, searchFragment, "SearchFragment")
@@ -66,6 +61,15 @@ public class ContentActivity extends DaggerAppCompatActivity implements ContentA
         });
         presenter.drawProfileButton();
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.takeView(this);
+        if (getIntent() != null && getIntent().getData() != null) {
+            presenter.loadToken(getIntent().getDataString());
+        }
     }
 
     @Override

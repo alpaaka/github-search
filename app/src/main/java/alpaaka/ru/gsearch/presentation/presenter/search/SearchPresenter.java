@@ -35,7 +35,7 @@ public class SearchPresenter implements SearchContract.Presenter {
         interactor.findRepositories(new ISearchInteractor.LoadRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
-                if (view != null){
+                if (view != null) {
                     view.showProgress(false);
                     view.dataLoaded(list, refresh);
                 }
@@ -43,15 +43,17 @@ public class SearchPresenter implements SearchContract.Presenter {
 
             @Override
             public void onDataNotAvailable(int code) {
-                if (view != null){
+                if (view != null) {
                     view.showProgress(false);
+                    view.showInfoMessage(code);
                 }
             }
 
             @Override
             public void onConnectionError() {
-                if (view != null){
+                if (view != null) {
                     view.showProgress(false);
+                    view.showInfoMessage(-1);
                 }
             }
         }, q);
@@ -63,7 +65,7 @@ public class SearchPresenter implements SearchContract.Presenter {
         interactor.loadMore(new ISearchInteractor.LoadRepositoriesCallback() {
             @Override
             public void onRepositoriesLoaded(ArrayList<Repository> list, boolean refresh) {
-                if (view != null){
+                if (view != null) {
                     view.showProgress(false);
                     view.dataLoaded(list, refresh);
                 }
@@ -71,15 +73,17 @@ public class SearchPresenter implements SearchContract.Presenter {
 
             @Override
             public void onDataNotAvailable(int code) {
-                if (view != null){
+                if (view != null) {
                     view.showProgress(false);
+                    view.showInfoMessage(code);
                 }
             }
 
             @Override
             public void onConnectionError() {
-                if (view != null){
+                if (view != null) {
                     view.showProgress(false);
+                    view.showInfoMessage(-1);
                 }
             }
         });

@@ -28,11 +28,14 @@ import alpaaka.ru.gsearch.ui.adapters.RepositoriesRecyclerViewAdapter;
 public class SearchFragment extends Fragment implements SearchContract.View,
         SearchView.OnQueryTextListener {
 
+    private static final String REQUEST = "current_request";
+
     @Inject
     SearchContract.Presenter presenter;
     private RepositoriesRecyclerViewAdapter adapter;
     private OnFragmentInteractionListener listener;
-    boolean isLoading = false;
+    private boolean isLoading = false;
+    private String currentRequest;
 
     @Inject
     public SearchFragment() {
@@ -44,6 +47,12 @@ public class SearchFragment extends Fragment implements SearchContract.View,
         if (context instanceof OnFragmentInteractionListener) {
             this.listener = (OnFragmentInteractionListener) context;
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -106,6 +115,7 @@ public class SearchFragment extends Fragment implements SearchContract.View,
     @Override
     public boolean onQueryTextChange(String s) {
         if (!s.isEmpty()) {
+            this.currentRequest = s;
             presenter.searchReps(s);
         }
         return true;
@@ -122,7 +132,13 @@ public class SearchFragment extends Fragment implements SearchContract.View,
         listener.showProgress(progress);
     }
 
+    @Override
+    public void showInfoMessage(int code) {
+        listener.showInfoMessage(code);
+    }
+
     public interface OnFragmentInteractionListener {
         void showProgress(boolean visibility);
+        void showInfoMessage(int code);
     }
 }

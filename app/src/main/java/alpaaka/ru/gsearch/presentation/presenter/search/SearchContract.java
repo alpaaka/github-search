@@ -11,6 +11,7 @@ public class SearchContract {
     public interface View extends BaseView<Presenter> {
         void dataLoaded(ArrayList<Repository> list, boolean refresh);
         void showProgress(boolean progress);
+        void showInfoMessage(int code);
     }
 
     public interface Presenter extends BasePresenter<View>{
