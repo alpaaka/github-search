@@ -6,6 +6,8 @@
     <string name="search">Поиск</string>
     <string name="log_out">Выйти</string>
 
+
+    <string name="too_many_request">Превышен лимит запросов</string>
     <string name="error_connect">Проверьте подключение к интернету</string>
     <string name="forbidden">Доступ запрещен</string>
 </resources>

@@ -12,7 +12,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ApiSource implements IApiSource{
+public class ApiSource implements IApiSource {
 
     @Inject
     ApiService apiService;
@@ -30,7 +30,7 @@ public class ApiSource implements IApiSource{
             @Override
             public void onResponse(Call<RepositoryResponse> call,
                                    final Response<RepositoryResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     appExecutor.getMainThread().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -40,15 +40,26 @@ public class ApiSource implements IApiSource{
                         }
                     });
                 } else {
-                    appExecutor.getMainThread().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onDataNotAvailable(response.code());
+                    if ("0".equals(response.headers().get("x-ratelimit-remaining"))) {
+                        appExecutor.getMainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onDataNotAvailable(800);
 
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        appExecutor.getMainThread().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onDataNotAvailable(response.code());
+
+                            }
+                        });
+                    }
                 }
             }
+
             @Override
             public void onFailure(Call<RepositoryResponse> call, Throwable t) {
                 appExecutor.getMainThread().execute(new Runnable() {

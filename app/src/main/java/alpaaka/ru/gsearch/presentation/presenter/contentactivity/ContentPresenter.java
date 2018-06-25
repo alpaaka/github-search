@@ -83,6 +83,11 @@ public class ContentPresenter implements ContentActivityContract.Presenter {
         }
     }
 
+    @Override
+    public boolean checkToken() {
+        return hasToken;
+    }
+
 
     @Override
     public void takeView(@NonNull ContentActivityContract.View view) {

@@ -91,11 +91,15 @@ public class ContentActivity extends DaggerAppCompatActivity implements ContentA
     public void showInfoMessage(int code) {
         switch (code) {
             case -1:
-                Snackbar.make(findViewById(CONTAINER), R.string.error_connect, Snackbar.LENGTH_SHORT)
+                Snackbar.make(findViewById(CONTAINER),
+                        R.string.error_connect,
+                        Snackbar.LENGTH_SHORT)
                         .show();
                 break;
             case 403:
-                Snackbar.make(findViewById(CONTAINER), R.string.forbidden, Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(findViewById(CONTAINER),
+                        R.string.forbidden,
+                        Snackbar.LENGTH_INDEFINITE)
                         .setAction(getString(R.string.sign_in), new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -104,6 +108,22 @@ public class ContentActivity extends DaggerAppCompatActivity implements ContentA
                             }
                         })
                         .show();
+                break;
+            case 800:
+                Snackbar snackbar =
+                        Snackbar.make(findViewById(CONTAINER), R.string.too_many_request,
+                                Snackbar.LENGTH_INDEFINITE);
+                if (!presenter.checkToken()) {
+                    snackbar.setAction(getString(R.string.sign_in), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(ContentActivity.this,
+                                    LoginActivity.class));
+                        }
+                    });
+
+                }
+                snackbar.show();
                 break;
         }
     }

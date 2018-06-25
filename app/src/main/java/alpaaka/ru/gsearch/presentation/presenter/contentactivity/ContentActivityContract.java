@@ -16,5 +16,6 @@ public class ContentActivityContract {
         void loadToken(String code);
         void drawProfileButton();
         void onActionProfileClick();
+        boolean checkToken();
     }
 }
